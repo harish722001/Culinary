@@ -11,4 +11,8 @@ app.get('/health-check', (req, res)=>{
     res.send('Server is uppp....')
 })
 
+app.get('/getall', (req, res) => {
+    res.end('this is getall')
+})
+
 module.exports = app
