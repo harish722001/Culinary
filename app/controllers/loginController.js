@@ -13,6 +13,12 @@ module.exports = (req, res, next) => {
                 next
              );
         }
+
+        res.send({
+            "status": 200,
+            "message": "login successful",
+            "userID": userId
+        })
         
     } catch (err) {
         next(err);
