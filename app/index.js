@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express()
 const mongoConnect = require('./utils/mongoConnect')
 const loginRouter = require('./routes/loginRoute')
+const errorhandler = require('./controllers/errorController')
 
 mongoConnect()
 app.use(cors());
@@ -21,5 +22,8 @@ app.get('/getall', (req, res) => {
 
 // Routes
 app.use('/login', loginRouter)
+
+//Global error handler
+app.use(errorhandler)
 
 module.exports = app
