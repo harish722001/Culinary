@@ -2,8 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express()
+const mongoConnect = require('./utils/mongoConnect')
 const loginRouter = require('./routes/loginRoute')
 
+mongoConnect()
 app.use(cors());
 app.use(bodyParser.json({ limit: '12mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
