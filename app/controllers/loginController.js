@@ -2,7 +2,7 @@
 const AppError = require('../utils/appError')
 const user = require('../models/user')
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     try {
         const {email, password} = req.body
 
@@ -14,7 +14,16 @@ module.exports = (req, res, next) => {
                 next
              );
         }
-
+        //check in db
+        const thisuser = user.findOne({email});
+        if (!thisuser) {
+            return next(new AppError(401, "fail", "Invalid email or password"));
+        }
+        const passwordMatch = await bcrypt.compare(password,thisuser.password);
+        if (!passwordMatch) {
+            return next(new AppError(401, "fail", "Invalid email or password"));
+        }
+        //token generation to be done
         res.send({
             "status": 200,
             "message": "login successful",
