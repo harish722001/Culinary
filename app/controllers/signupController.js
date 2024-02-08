@@ -15,6 +15,15 @@ module.exports = async (req, res, next) => {
                 next
             );
         }
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        if (!emailRegex.test(email)) {
+            return next(
+                new AppError(422, "fail", "Invalid e-mail address"),
+                req,
+                res,
+                next
+            );
+        }
         const findUser = await user.findOne({ email: email });
         if (!findUser) {
             const salt = await bcrypt.genSalt(10);
@@ -31,7 +40,7 @@ module.exports = async (req, res, next) => {
             res.send({
                 "status": 200,
                 "message": "signup successful",
-                "email": newUser._id
+                "id": newUser._id
             });
         }
         else {

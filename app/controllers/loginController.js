@@ -14,6 +14,15 @@ module.exports = async (req, res, next) => {
                 next
             );
         }
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        if (!emailRegex.test(email)) {
+            return next(
+                new AppError(422, "fail", "Invalid e-mail address"),
+                req,
+                res,
+                next
+            );
+        }
         //check in db
         console.log(email)
         const thisuser = await user.findOne({ email: email });
@@ -32,7 +41,7 @@ module.exports = async (req, res, next) => {
                 res.send({
                     "status": 200,
                     "message": "login successful",
-                    "email": thisuser._id
+                    "id": thisuser._id
                 });
             }
             catch (error) {
