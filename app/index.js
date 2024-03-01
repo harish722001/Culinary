@@ -21,7 +21,7 @@ app.get('/getall', (req, res) => {
 })
 
 // Routes
-app.use('/login', loginRouter)
+app.use('/api/v1.0/login', loginRouter)
 //Global error handler
 app.use(errorhandler)
 

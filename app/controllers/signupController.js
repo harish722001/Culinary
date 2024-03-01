@@ -28,14 +28,14 @@ module.exports = async (req, res, next) => {
         if (!findUser) {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-            const today = moment();
-            const formattedDate = today.format("DD-MM-YYYY");
+            // const today = moment();
+            // const formattedDate = today.format("DD-MM-YYYY");
             const newUser = await user.create({
                 email: email,
                 password: hashedPassword,
                 username: name,
                 role: role,
-                creation_date: formattedDate
+                created_on: Date.now()
             });
             res.send({
                 "status": 200,

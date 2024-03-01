@@ -16,9 +16,9 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String
     },
-    creation_date: {
-        type: String
-    }
+    created_on: {
+        type: Date
+    },
 })
 
 module.exports = mongoose.model('user', userSchema)
