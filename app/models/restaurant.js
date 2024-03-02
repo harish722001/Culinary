@@ -23,6 +23,14 @@ const restaurantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    unique_id: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        required: true
+    },
     dishes: {
         type: [
             {
@@ -35,6 +43,10 @@ const restaurantSchema = new mongoose.Schema({
                 },
                 price: {
                     type: Number,
+                    required: true
+                },
+                status: {
+                    type: String,
                     required: true
                 },
                 serves: {
