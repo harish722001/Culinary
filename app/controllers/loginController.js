@@ -2,6 +2,7 @@
 const AppError = require('../utils/appError');
 const user = require('../models/user');
 const bcrypt = require('bcrypt');
+const {verifyEmailFormat} = require('../utils/commonFunctions')
 
 module.exports = async (req, res, next) => {
     try {
@@ -14,8 +15,8 @@ module.exports = async (req, res, next) => {
                 next
             );
         }
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-        if (!emailRegex.test(email)) {
+        const verifyEmail = await verifyEmailFormat(email)
+        if (!verifyEmail) {
             return next(
                 new AppError(422, "fail", "Invalid e-mail address"),
                 req,

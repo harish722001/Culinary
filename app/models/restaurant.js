@@ -28,7 +28,7 @@ const restaurantSchema = new mongoose.Schema({
         required: true
     },
     status: {
-        type: String,
+        type: Number,
         required: true
     },
     dishes: {
@@ -46,7 +46,7 @@ const restaurantSchema = new mongoose.Schema({
                     required: true
                 },
                 status: {
-                    type: String,
+                    type: Number,
                     required: true
                 },
                 serves: {
