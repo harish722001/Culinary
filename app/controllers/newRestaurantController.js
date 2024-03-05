@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
         const newRestaurant = new restaurant(req.body)
         try {
             console.log('saving restaurant...')
-            const resp = await newRestaurant.save()
+            await newRestaurant.save()
         }catch(err){
             return(next(new AppError(
                 500,
@@ -63,6 +63,8 @@ async function checkRequiredFields(params) {
     }else if(!params.address) {
         message = 'Address is missing'
     }
+
+    //phone number validation needs to be added
 
     if(params.email){
         const checkEmail = await verifyEmailFormat(params.email)
