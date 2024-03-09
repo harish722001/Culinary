@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
             return (next(new AppError(
                 422,
                 "Invalid params",
-                requierd.message
+                required.message
             )))
         }
 
