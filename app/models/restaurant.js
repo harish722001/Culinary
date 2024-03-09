@@ -25,7 +25,8 @@ const restaurantSchema = new mongoose.Schema({
     },
     unique_id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     status: {
         type: Number,
