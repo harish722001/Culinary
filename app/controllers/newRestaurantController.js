@@ -25,6 +25,7 @@ module.exports = async (req, res, next) => {
             )))
         }
 
+        req.body.
         req.body.created_on = Date.now()
         req.body.last_modified_on = Date.now()
         req.body.status = 1
