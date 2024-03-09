@@ -1,8 +1,6 @@
 const AppError = require('../utils/appError');
 const restaurant = require('../models/restaurant');
 const { verifyEmailFormat } = require('../utils/commonFunctions')
-const app = require('..');
-const user = require('../models/user');
 
 module.exports = async (req, res, next) => {
     try {
@@ -16,8 +14,8 @@ module.exports = async (req, res, next) => {
         }
         req.body.user_id = userId
 
-        const requierd = await checkRequiredFields(req.body)
-        if (!requierd.check) {
+        const required = await checkRequiredFields(req.body)
+        if (!required.check) {
             return (next(new AppError(
                 422,
                 "Invalid params",
@@ -56,7 +54,7 @@ module.exports = async (req, res, next) => {
         res.send({
             "status": 200,
             "message": "Restaurant Created",
-        });
+        })
     } catch (err) {
         return (next(new AppError(
             500,
@@ -73,6 +71,7 @@ async function checkDuplicateRestaurant(body) {
     
     return check
 }
+
 async function checkRequiredFields(params) {
     let message
 
