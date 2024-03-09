@@ -1,4 +1,3 @@
-const { restart } = require('nodemon')
 const AppError = require('../utils/appError');
 const restaurant = require('../models/restaurant');
 const { verifyEmailFormat } = require('../utils/commonFunctions')
