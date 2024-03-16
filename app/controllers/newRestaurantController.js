@@ -24,9 +24,9 @@ module.exports = async (req, res, next) => {
                 next
             )
         }
-
+        //enhance unique id later
         u_name = req.body.name.replace(/\s/g, "").toLowerCase()
-        U_address = req.body.address.replace(/\s/g, "").toLowerCase()
+        U_address = req.body.address.address_main.replace(/\s/g, "").toLowerCase()
         req.body.unique_id = u_name + '_' + U_address
         req.body.created_on = Date.now()
         req.body.last_modified_on = Date.now()
@@ -81,7 +81,7 @@ async function checkRequiredFields(params) {
         message = 'Name is missing'
     } else if (!params.phone_number) {
         message = 'Phone Number is missing'
-    } else if (!params.address) {
+    } else if (!params.address.address_main) {
         message = 'Address is missing'
     }
 

@@ -20,7 +20,37 @@ const restaurantSchema = new mongoose.Schema({
         type: String
     },
     address: {
-        type: String,
+        type: {
+            address_main: {
+                type: String,
+                required: true
+            },
+            locality: {
+                type: String
+            },
+            landmark: {
+                type: String
+            },
+            city: {
+                type: String
+            },
+            state: {
+                type: String
+            },
+            pincode: {
+                type: Number
+            },
+            location_coordinates: {
+                type: {
+                    latitude: {
+                        type: String
+                    },
+                    longitude: {
+                        type: String
+                    }
+                }
+            }
+        },
         required: true
     },
     unique_id: {

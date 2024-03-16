@@ -8,7 +8,7 @@ const restaurant = require('../models/restaurant');
 
 router.post('/new-restaurant', auth, newRestaurantController)
 router.get('/my-restaurants', auth, myRestaurantController)
-router.get('/restaurant-details/:restaurantId', restaurantDetailsController)
-//updateRestaurant, deleteRestaurant, restaurantDetails needs to be added
+router.get('/details/:restaurantId', restaurantDetailsController)
+//updateRestaurant, deleteRestaurantneeds to be added
 
 module.exports = router;
