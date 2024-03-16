@@ -1,16 +1,17 @@
 const AppError = require('../utils/appError');
 const restaurant = require('../models/restaurant');
-const e = require('express');
 
 module.exports = async (req, res, next) => {
     try {
         const userId = req.headers['userid']
         console.log('userId = ', userId)
         if (!userId) {
-            return next(new AppError(
-                422,
-                "fail",
-                "UserId is missing"))
+            return next(
+                new AppError(422,"fail","UserId is missing"), 
+                req, 
+                res, 
+                next
+            )
         }
         let myRestaurants
         try {
@@ -26,11 +27,12 @@ module.exports = async (req, res, next) => {
                 last_modified_on: -1
             })
         } catch (err) {
-            return (new AppError(
-                500,
-                "Db operation failed",
-                err
-            ))
+            return (
+                new AppError(500,"Db operation failed",err),
+                req,
+                res, 
+                next
+            )
         }
 
         if (myRestaurants.length>0) {
@@ -51,6 +53,6 @@ module.exports = async (req, res, next) => {
             500,
             'Internal server error',
             err
-        )))
+        )), req, res, next)
     }
 }

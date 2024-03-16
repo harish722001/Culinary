@@ -7,20 +7,22 @@ module.exports = async (req, res, next) => {
         const userId = req.headers['userid']
         console.log('userId = ', userId)
         if (!userId) {
-            return next(new AppError(
-                422,
-                "fail",
-                "UserId is missing"))
+            return (next(
+                new AppError(422, "fail", "UserId is missing")),
+                req,
+                res,
+                next
+            )
         }
         req.body.user_id = userId
 
         const required = await checkRequiredFields(req.body)
         if (!required.check) {
-            return (next(new AppError(
-                422,
-                "Invalid params",
-                required.message
-            )))
+            return (next(new AppError(422, "Invalid params", required.message)),
+                req,
+                res,
+                next
+            )
         }
 
         u_name = req.body.name.replace(/\s/g, "").toLowerCase()
@@ -33,11 +35,11 @@ module.exports = async (req, res, next) => {
         const duplicateCheck = await checkDuplicateRestaurant(req.body)
 
         if (duplicateCheck) {
-            return next(new AppError(
+            return (next(new AppError(
                 401,
                 "fail",
                 "Restaurant with same name and address already exists"
-            ))
+            )), req, res, next)
         }
 
         const newRestaurant = new restaurant(req.body)
@@ -49,7 +51,7 @@ module.exports = async (req, res, next) => {
                 500,
                 'Internal server error',
                 err
-            )))
+            )), req, res, next)
         }
         res.send({
             "status": 200,
@@ -60,7 +62,7 @@ module.exports = async (req, res, next) => {
             500,
             'Internal server error',
             err
-        )))
+        )), req, res, next)
     }
 }
 
