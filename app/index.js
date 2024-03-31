@@ -6,6 +6,7 @@ const mongoConnect = require('./utils/mongoConnect')
 const loginRouter = require('./routes/loginRoute')
 const restaurantRouter = require('./routes/restaurantRoute')
 const dishesRouter = require('./routes/dishesRoute')
+const homeRouter = require('./routes/homeRoute')
 const errorhandler = require('./controllers/errorController')
 
 mongoConnect()
@@ -26,6 +27,7 @@ app.get('/getall', (req, res) => {
 app.use('/api/v1.0/login', loginRouter)
 app.use('/api/v1.0/restaurant', restaurantRouter)
 app.use('/api/v1.0/dishes', dishesRouter)
+app.use('/api/v1.0/home', homeRouter)
 //Global error handler
 app.use(errorhandler)
 

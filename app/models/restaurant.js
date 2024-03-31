@@ -19,6 +19,15 @@ const restaurantSchema = new mongoose.Schema({
     email: {
         type: String
     },
+    cuisine_type: {
+        type: [String]
+    },
+    average_timetaken: {
+        type: String
+    },
+    priceforone: {
+        type: String
+    },
     address: {
         type: {
             address_main: {

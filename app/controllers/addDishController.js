@@ -32,6 +32,7 @@ module.exports = async (req, res, next) => {
         try {
             newDish = await restaurant.updateOne(
                 { _id: restaurantId },
+                { $set: {last_modified_on: req.body.last_modified_on}},
                 { $push: { dishes: req.body } }
             )
         } catch (err) {
