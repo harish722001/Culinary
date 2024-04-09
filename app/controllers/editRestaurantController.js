@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
                 next
             )
         }
-
+        
         const { restaurantId } = req.params
         if (!restaurantId) {
             return next(
@@ -28,16 +28,24 @@ module.exports = async (req, res, next) => {
         if (!req.body.status) {
             req.body.status = 1
         }
-        let newDish
+
+        let updateRestaurant
+
         try {
-            newDish = await restaurant.updateOne(
+            const userDetails = await restaurant.findOne(
                 { _id: restaurantId },
-                // { $set: {last_modified_on: req.body.last_modified_on}},
-                { $push: { dishes: req.body } }
+                { user_id: 1 }
             )
-            await restaurant.updateOne(
-                {_id: restaurantId},
-                { $set: {last_modified_on: req.body.last_modified_on}}
+            if (userDetails.user_id !== userId.toString()) {
+                res.send({
+                    "status": 403,
+                    "message": "You are not authorized to do this operation",
+                })
+                return
+            }
+            updateRestaurant = await restaurant.updateOne(
+                { _id: restaurantId},
+                { $set: req.body }
             )
         } catch (err) {
             return (
@@ -48,11 +56,11 @@ module.exports = async (req, res, next) => {
             )
         }
 
-        if (newDish.matchedCount === 1) {
+        if (updateRestaurant.matchedCount === 1) {
             res.send({
                 "status": 200,
-                "message": "Dish added",
-                "data": newDish
+                "message": "Restaurant updated",
+                "data": updateRestaurant
             })
         } else {
             res.send({

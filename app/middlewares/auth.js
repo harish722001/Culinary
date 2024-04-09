@@ -1,6 +1,6 @@
 const user = require('../models/user');
 
-module.exports = async (req, res, next) => {
+const auth = async (req, res, next) => {
     //Implement auth method later
     //temp auth
     try {
@@ -20,4 +20,8 @@ module.exports = async (req, res, next) => {
             error: err
         })
     }
+}
+
+module.exports = {
+    auth
 }

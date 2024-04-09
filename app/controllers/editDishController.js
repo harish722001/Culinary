@@ -14,10 +14,10 @@ module.exports = async (req, res, next) => {
             )
         }
 
-        const { restaurantId } = req.params
-        if (!restaurantId) {
+        const { restaurantId, dishId } = req.params
+        if (!restaurantId || !dishId) {
             return next(
-                new AppError(422, "fail", "restaurantId is missing"),
+                new AppError(422, "fail", "restaurantId or dishId is missing"),
                 req,
                 res,
                 next
@@ -28,15 +28,37 @@ module.exports = async (req, res, next) => {
         if (!req.body.status) {
             req.body.status = 1
         }
-        let newDish
+
+        let updateDish
+        const update = {
+            $set: {}
+        }
+
+        for (const key in req.body) {
+            if (req.body.hasOwnProperty(key)) {
+                update.$set[`dishes.$.${key}`] = req.body[key];
+            }
+        }
+
         try {
-            newDish = await restaurant.updateOne(
+            const userDetails = await restaurant.findOne(
                 { _id: restaurantId },
-                // { $set: {last_modified_on: req.body.last_modified_on}},
-                { $push: { dishes: req.body } }
+                { user_id: 1 }
+            )
+            if (userDetails.user_id !== userId.toString()) {
+                res.send({
+                    "status": 403,
+                    "message": "You are not authorized to do this operation",
+                })
+                return
+            }
+
+            updateDish = await restaurant.updateOne(
+                { _id: restaurantId , 'dishes._id': dishId},
+                update
             )
             await restaurant.updateOne(
-                {_id: restaurantId},
+                { _id: restaurantId },
                 { $set: {last_modified_on: req.body.last_modified_on}}
             )
         } catch (err) {
@@ -48,11 +70,11 @@ module.exports = async (req, res, next) => {
             )
         }
 
-        if (newDish.matchedCount === 1) {
+        if (updateDish.matchedCount === 1) {
             res.send({
                 "status": 200,
-                "message": "Dish added",
-                "data": newDish
+                "message": "Dish updated",
+                "data": updateDish
             })
         } else {
             res.send({
