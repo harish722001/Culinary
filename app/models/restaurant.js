@@ -6,7 +6,8 @@ const restaurantSchema = new mongoose.Schema({
         required: true
     },
     user_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
         required: true
     },
     phone_number: {
@@ -88,6 +89,9 @@ const restaurantSchema = new mongoose.Schema({
                 status: {
                     type: Number,
                     required: true
+                },
+                availability_count: {
+                    type: Number
                 },
                 serves: {
                     type: String

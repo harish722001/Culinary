@@ -8,7 +8,7 @@ module.exports = () => {
     try {
         // Connect to the MongoDB cluster
         console.log('connecting to mongodb...')
-        mongoose.connect(mongoAtlasUri)
+        mongoose.connect(mongoAtlasUri, )
     } catch (e) {
         console.log("Mongoose connection failed")
     }
